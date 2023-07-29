@@ -1,0 +1,191 @@
+
+/**** HEADER ****/
+
+
+header a {
+    text-decoration: none;
+    color: inherit;
+}
+a h1 b {
+  color: rgb();
+}
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    font-family:sans-serif;
+    background-color: rgb(233, 219, 197);
+    margin:-8px;
+    height: 60px;
+    position: sticky;
+}
+
+header > * {
+    margin-right: 60px;
+}
+
+
+/*CATEGORIES*/
+header .categories {
+    padding-right: 50px;
+}
+
+header .categories a {
+    height: 20px;
+    outline: none;
+    border: 0;
+    transition: 300ms;
+    cursor: pointer;
+    background-color:rgb(233, 219, 197) ;
+    margin-left:15px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: inherit;
+    padding-left: 3px;
+    margin-inline-end: 10px;
+}
+
+header .categories a:hover {
+    background-color:#585555 ;
+}
+
+header .vl {
+    border-left: 1px solid black;
+
+}
+/*CATEGORIES*/
+
+/**** LOGIN ****/
+header .login-btn {
+    width: 80px;
+    height: 30px;
+    outline: none;
+    border: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: rgb(233, 219, 197);
+    transition: 300ms;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+header .login-btn:hover {
+    background-color: #585555;
+}
+/**** LOGIN ****/
+
+/* CART */
+header .cart-btn {
+    border: 0;
+    outline: none;
+    background-color:rgb(233, 219, 197);
+    cursor: pointer;
+    position: absolute;
+    margin-left: 1190px;
+}
+
+header .cart-btn img {
+    width: 25px;
+    height: 25px;
+}
+/* CART */
+
+/**** HEADER ****/
+
+
+
+
+/**** MAIN ****/
+
+main{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  font-family: sans-serif;
+  position:relative;
+}
+
+
+/* BIG BUTTON*/
+.bigbutton {
+  margin-top: 175px;
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  align-items: center;
+  width: 600px;
+  height: 200px;
+  background-color: white;
+  opacity: 0.9;
+  font-size: 50px;
+  font-weight: 600;
+  padding-bottom: 10px;
+   position: absolute; 
+}
+
+.bigbutton  p {
+  margin-top: 30px;
+}
+
+.main-pic{
+  position: absolute; 
+}
+
+.main-pic img {
+  margin-top: 8px;
+width: 1381px;
+height: 500px;
+}
+
+.mid-btn {
+  margin-top: 300px;
+  width: 160px;
+  height: 50px;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  background-color: rgb(216, 160, 87);
+  z-index: 1;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* BIG BUTTON*/
+
+/**** ITEMS ****/
+main .details {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content:center ;
+  position: relative;
+  z-index: 2;
+  font-weight: 600;
+  font-size: 25px;
+  font-family: sans-serif;
+}
+
+ .details .items{
+  display: grid;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  
+ }
+
+/**** ITEMS ****/
+
+
+
+
+/**** MAIN ****/
