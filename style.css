@@ -1,10 +1,30 @@
 
 /**** HEADER ****/
 
+html {
+  scroll-behavior: smooth;
+  transition: transform 500ms ease;
+}
+
 
 header a {
     text-decoration: none;
     color: inherit;
+}
+
+header .nav-btn {
+  border: 0;
+  outline: none;
+  background-color: inherit;
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+ transition: 200ms;
+ cursor: pointer;
+}
+
+header .nav-btn:hover {
+  background-color:#585555 ;
 }
 a h1 b {
   color: rgb();
@@ -17,9 +37,11 @@ header {
     align-items: center;
     font-family:sans-serif;
     background-color: rgb(233, 219, 197);
-    margin:-8px;
+    margin: -8px;
     height: 60px;
-    position: sticky;
+    width: 1519px;
+    position: fixed;
+    z-index: 4;
 }
 
 header > * {
@@ -105,9 +127,11 @@ main{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0px;
 }
 
 section {
+  margin: 0px;
   display: flex;
   justify-content: center;
   font-family: sans-serif;
@@ -137,12 +161,14 @@ section {
 }
 
 .main-pic{
-  position: absolute; 
+  position: absolute;
+  padding-top: 44px;
+  margin: 0px;
 }
 
 .main-pic img {
   margin-top: 8px;
-width: 1381px;
+ width: 1519px; 
 height: 500px;
 }
 
@@ -163,13 +189,13 @@ height: 500px;
 
 /**** ITEMS ****/
 main .details {
-  margin-top: 200px;
+  margin-top: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* align-content:center ; */
   position: relative;
-  z-index: 2;
+  z-index: 3;
   font-weight: 600;
   font-size: 25px;
   font-family: sans-serif;
@@ -198,32 +224,51 @@ main .details {
    margin-top:100px;
    border:2px solid rgb(158, 158, 158);
    border-radius: 5px;
-   width:220px;
-   height:220px;
+   width: 250px;
+   height:240px;
   display:flex;
   flex-direction: column;
-  justify-content:center;
-  align-items: center;
-  padding: 20px;
+  justify-content:space-evenly;
+  align-items:center;
+  overflow: hidden;
+  padding: 10px;
+ }
+
+ .div-element:hover .add-cart {
+  transform: translateX(10px);
  }
 
  .title {
   display: flex;
   justify-content: center;
-  font-size: 13px;
+  font-size: 15px;
   width: 250px;
   height: 10px;
  
  }
 
+ 
+
  .add-cart {
   display: flex;
+  justify-content: flex-end;
   align-self: flex-end;
   outline: none;
   border: 0;
+  font-weight: 600;
   background-color:rgb(233, 219, 197);
-  
+  transform: translateX(124px);
+  transition: opacity 0.3s, transform 0.3s;
  }
+
+
+
+ .buy-img {
+  padding-left: 5px;
+  display: flex;
+  width: 20px;
+  height: 20px;
+}
 /**** ITEMS ****/
 
 
