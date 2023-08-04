@@ -16,6 +16,7 @@ const header = document.querySelector(".header")
 const img = document.querySelector(".main-pic")
 const bigButton = document.querySelector(".bigbutton")
 const midBtn = document.querySelector(".mid-btn")
+const itemsView = document.querySelector(".items-view")
 //DOC
 
 
@@ -62,8 +63,7 @@ const fetchProducts = async () => {
 
             // BUY BUTTON
              const buy = document.createElement("button")
-            const bişey = document.createElement("img")
-            bişey.src = "img/shopping-cart.png"
+            
 
             buy.classList.add("add-cart")
             buy.innerHTML = "Add To Cart"
@@ -88,7 +88,7 @@ const fetchProducts = async () => {
                 }
             })
             //FILTERING(men)
-
+            
             //FILTERING(women)
             womenBtn.addEventListener("click", e => {
                 if(product.category !== "women's clothing") {
@@ -119,7 +119,7 @@ const fetchProducts = async () => {
            })
             //MID-BTN SCROLL
 
-          
+          console.log()
 
 
             //CART BUTTON
@@ -129,13 +129,12 @@ const fetchProducts = async () => {
               asideDiv.classList.add("open");
               body.style.width = "700px"
               header.style.width = "1118px"
-              img.style.width = "1150px"
+              img.style.width = "1120px"
               img.style.marginLeft = "400px"
               items.setAttribute("style", "grid-template-columns: 100px 100px 100px; grid-template-rows: 100px 100px 100px 100px 100px 100px;margin-left: 350px")
               ourProducts.setAttribute("style", "margin-left:335px")
               bigButton.style.marginLeft = "380px"
               midBtn.style.marginLeft = "380px"
-              
             });
             
             closeCartButton.addEventListener("click", () => {
@@ -153,9 +152,37 @@ const fetchProducts = async () => {
             //CART BUTTON
         
             //CART-DETAILS
-            buy.addEventListener("click", e => {
+
+            //doc
+            const itemsTitle = document.querySelector(".items-title")
+            const itemsImg = document.querySelector(".items-img")
+            const itemsPrice = document.querySelector(".items-price")
+            //doc
+
+              buy.addEventListener("click", () => {
                 
-            })
+                const cartItemImage = document.createElement("img");
+                cartItemImage.src = product.image;
+                cartItemImage.alt = product.title;
+                cartItemImage.classList.add("cart-item-image");
+                cartItemImage.style.width = "50px";
+                cartItemImage.style.height = "50px";
+                itemsImg.appendChild(cartItemImage);
+                
+                
+                const cartItemTitle = document.createElement("p");
+                cartItemTitle.textContent = product.title;
+                 itemsTitle.appendChild(cartItemTitle);
+                    
+            
+                const cartItemPrice = document.createElement("p");
+                cartItemPrice.textContent = product.price + " $";
+                 itemsPrice.appendChild(cartItemPrice);
+            
+                const cartDetails = document.querySelector(".items-view");
+                cartDetails.appendChild(cartItem);
+              });
+
             //CART-DETAILS
 
         }
