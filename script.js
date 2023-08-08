@@ -26,6 +26,8 @@ const fetchProducts = async () => {
         const res = await fetch(productsAPI)
         const data = await res.json()
 
+        /* quantity counter */ let counter = 0;
+
           data.forEach((product) => {
             if(product.category !== "electronics") {
 
@@ -64,7 +66,7 @@ const fetchProducts = async () => {
             // BUY BUTTON
              const buy = document.createElement("button")
             
-
+            
             buy.classList.add("add-cart")
             buy.innerHTML = "Add To Cart"
             buy.setAttribute("style", "cursor:pointer")
@@ -123,7 +125,8 @@ const fetchProducts = async () => {
 
 
             //CART BUTTON
-            const closeCartButton = document.querySelector(".close-cart-btn");
+             const closeCartButton = document.querySelector(".close-cart-btn")
+             const totalCartBtn = document.querySelector(".total-price")
             
             cartButton.addEventListener("click", () => {
               asideDiv.classList.add("open");
@@ -135,6 +138,7 @@ const fetchProducts = async () => {
               ourProducts.setAttribute("style", "margin-left:335px")
               bigButton.style.marginLeft = "380px"
               midBtn.style.marginLeft = "380px"
+              totalCartBtn.style.display ="flex"
             });
             
             closeCartButton.addEventListener("click", () => {
@@ -148,7 +152,10 @@ const fetchProducts = async () => {
               ourProducts.removeAttribute("style","margin-left")
               bigButton.removeAttribute("style", "margin-left")
               midBtn.removeAttribute("style", "margin-left")
-            });
+              totalCartBtn.style.display ="none"
+              
+            }); 
+
             //CART BUTTON
         
             //CART-DETAILS
@@ -173,23 +180,53 @@ const fetchProducts = async () => {
                 const cartItemTitle = document.createElement("p");
                 cartItemTitle.textContent = product.title;
                  itemsTitle.appendChild(cartItemTitle);
-                    
+                
             
                 const cartItemPrice = document.createElement("p");
                 cartItemPrice.textContent = product.price + " $";
                  itemsPrice.appendChild(cartItemPrice);
             
-                const cartDetails = document.querySelector(".items-view");
-                cartDetails.appendChild(cartItem);
-              });
+               
+
+
+                //shortening              
+                const inputString = cartItemTitle.innerHTML;
+                const wordsArray  = inputString.split(" ")
+
+                const firstThreeWords = wordsArray.slice(0, 3)
+                const firstThree = firstThreeWords.join(" ")
+
+                if(wordsArray.length > 3) {
+                    cartItemTitle.innerHTML = firstThree + `...`
+                } else {
+                    cartItemTitle.innerHTML = inputString
+                }
+              //shortening
+
+
+
+           
+
+             
 
             //CART-DETAILS
 
-        }
+            
+        })
+           //quantity
+           const spanQuantity = document.querySelector(".quantity");
+
+           buy.addEventListener("click", (e) => {
+             counter++;
+             spanQuantity.textContent = counter.toString();
+             spanQuantity.style.display="flex"
+           });
+          //quantity
+
+    }
+
          });
 
-
-        
 
          if(body.style.height < "1000px") {
             body.style.height = "1200px"
