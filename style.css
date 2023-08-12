@@ -16,6 +16,10 @@ body {
       color: inherit;
   }
 
+  header a h1 b {
+    font-weight: 300;
+  }
+
   header .nav-btn {
     border: 0;
     outline: none;
@@ -222,7 +226,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* align-content:center ; */
     position: relative;
     z-index: 3;
     font-weight: 600;
@@ -253,18 +256,19 @@ body {
     margin-top:100px;
     border:2px solid rgb(158, 158, 158);
     border-radius: 5px;
-    width: 250px;
-    height:240px;
+     width: 250px; 
+     height:240px; 
     display:flex;
     flex-direction: column;
     justify-content:space-evenly;
     align-items:center;
     overflow: hidden;
     padding: 10px;
+    box-shadow:-2px 0px 5px rgba(0, 0, 0, 0.5);
   }
 
   .div-element:hover .add-cart {
-    transform: translateX(10px);
+     transform: translateX(10px); 
   }
 
   .title {
@@ -282,12 +286,15 @@ body {
     display: flex;
     justify-content: flex-end;
     align-self: flex-end;
+    align-items: center;
     outline: none;
     border: 0;
     font-weight: 600;
     background-color:rgb(233, 219, 197);
     transform: translateX(124px);
     transition: opacity 0.3s, transform 0.3s;
+    height: 30px;
+
   }
 
 
@@ -309,13 +316,13 @@ body {
     position: fixed;
     top: 0;
     right: -420px; 
-    width: 400px;
-    height: 100%;
+    width: 420px;
+    height: 100%; 
     background-color: rgb(212, 180, 123);
-    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);  
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
     transition: right 0.3s ease;
     z-index: 5;
-    overflow-y: scroll;
+    overflow-y:scroll;
   }
 
   .aside-cart::-webkit-scrollbar {
@@ -334,7 +341,7 @@ body {
       padding-top: 0;
       right: 0;
 
-  } 
+  }
 
   
 
@@ -345,7 +352,7 @@ body {
     justify-content: space-evenly;
     position: fixed;
     bottom: 0;
-    width: 400px;
+    width: 420px;
   }
 
    .close-cart-btn {
@@ -389,57 +396,132 @@ body {
   }
 
   /*sub*/
+
   .items-title{
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: start; 
-    height: max-content;
-    margin-bottom: 45px;
+    position: absolute;
+    padding-bottom: 33px;
   }
 
 
   .items-title p {
-     margin-left: 10px;
-    width: max-content;
-    height: max-content;
-    padding-bottom: 5px;
-  } 
+    display: flex;
+    height: 43.2px;
+    align-items: center;
+    margin: 0;
+    margin-left: 50px;
+    margin-bottom: 10px;
+  }
+
 
   .items-img {
-     display: flex;
-     flex-direction: column; 
-     height: max-content;
-     margin-bottom: 45px;
+     position: absolute; 
   }
+
 
   .items-img img {
-    padding-bottom: 5px;  
-    width: 10px;
-    height: 10px;
-    height: max-content; 
-    
-    
-  }
-
-   .items-price {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    outline: none;
+    border-radius: 15px;
+    display: flex;
     flex-direction: column;
-    /* margin-left: 15px; */
-
-    width: max-content;
+    margin: 0;
+    margin-bottom: 10px;
   }
 
+
+
+.items-price {
+  position: absolute;
+  right:100px;
+  top: 76px;
+  align-items: center;
+  margin-right:10px;
+  
+}
   .items-price p {
-    display: none;
+    display:flex;
+    height: 43.2px;
+    margin: 0;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
   } 
 
   .cart-item {
-    display: flex;
-    align-items: center;
+    padding-left: 10px;
+    margin: 0;
   }
-  
+
 
   /*sub*/
+
+    .quantity-counter {
+    position: relative;
+    top: 7px;
+    left: 34px;
+    width: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+  } 
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+   }
+
+  .quantity-span {
+    position: absolute; 
+    
+  } 
+
+  .quantity-span button {
+    display: flex;
+    position: absolute
+  }
+
+  .increase {
+  width: 19px;
+  height: 19px;  
+  top: 7px;
+  left: 70px;
+  background-color: white;
+  outline: none;
+  border: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  }
+
+  .decrease {
+    width: 19px;
+    height: 19px;
+    top: 7px;
+    left: 15px;
+    outline: none;
+  border: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  }
+
+  .product-price {
+    position: absolute;
+    padding-right:20px;
+    margin-right: 50px;
+    left: -50px;
+    
+  }
+  
 
   /*aside carts*/
 

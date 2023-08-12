@@ -27,10 +27,12 @@ const fetchProducts = async () => {
         const data = await res.json()
 
         /* quantity counter */ let counter = 0;
+        
 
           data.forEach((product) => {
             if(product.category !== "electronics") {
 
+              
             //IMG
             const imgElement = document.createElement("img")
             imgElement.src = product.image;
@@ -121,7 +123,7 @@ const fetchProducts = async () => {
            })
             //MID-BTN SCROLL
 
-          console.log()
+
 
 
             //CART BUTTON
@@ -151,9 +153,7 @@ const fetchProducts = async () => {
               header.removeAttribute("style", "width")
               ourProducts.removeAttribute("style","margin-left")
               bigButton.removeAttribute("style", "margin-left")
-              midBtn.removeAttribute("style", "margin-left")
-              totalCartBtn.style.display ="none"
-              
+              midBtn.removeAttribute("style", "margin-left")              
             }); 
 
             //CART BUTTON
@@ -172,8 +172,6 @@ const fetchProducts = async () => {
                 cartItemImage.src = product.image;
                 cartItemImage.alt = product.title;
                 cartItemImage.classList.add("cart-item-image");
-                cartItemImage.style.width = "50px";
-                cartItemImage.style.height = "50px";
                 itemsImg.appendChild(cartItemImage);
                 
                 
@@ -183,8 +181,11 @@ const fetchProducts = async () => {
                 
             
                 const cartItemPrice = document.createElement("p");
-                cartItemPrice.textContent = product.price + " $";
+                // number-counter
+                cartItemPrice.innerHTML = `<span class="product-price">${product.price}$</span>`  +
+                 `<span class="quantity-span"> <button class="decrease">-</button> <input type="number" class="quantity-counter" value="1" min="0" max="10"> <button class="increase">+</button> </span>`
                  itemsPrice.appendChild(cartItemPrice);
+                 //number-counter
             
                
 
@@ -193,8 +194,8 @@ const fetchProducts = async () => {
                 const inputString = cartItemTitle.innerHTML;
                 const wordsArray  = inputString.split(" ")
 
-                const firstThreeWords = wordsArray.slice(0, 3)
-                const firstThree = firstThreeWords.join(" ")
+                const firstThreeWords = wordsArray.slice(0, 2)
+                const firstThree = firstThreeWords.join(" ");
 
                 if(wordsArray.length > 3) {
                     cartItemTitle.innerHTML = firstThree + `...`
@@ -202,36 +203,83 @@ const fetchProducts = async () => {
                     cartItemTitle.innerHTML = inputString
                 }
               //shortening
-
-
-
-           
-
              
 
             //CART-DETAILS
+
+        //quantity-input-works
+        const increase = cartItemPrice.querySelector(".increase")
+        const decrease = cartItemPrice.querySelector(".decrease")
+        const input = cartItemPrice.querySelector(".quantity-counter")
+        const cartItem = document.querySelector(".cart-item")
+
+        const productPrice = document.querySelector(".product-price")
+
+
+        
+
+        increase.addEventListener("click", e => {
+           parseFloat(input.value++)
+        })
+
+       
+        
+         decrease.addEventListener("click", e => {
+            
+          parseFloat(input.value--);
+          if(product.price === parseFloat(productPrice.innerHTML) && input.value <= 0) {
+            cartItem.style.display = "none"
+
+            // console.log(cartItem)
+            // console.log(parseFloat(productPrice.innerHTML))
+            // console.log(product.price)
+          }
+          
+        }) 
+
+      
+   
+
+        
+
+       //quantity-input-works
 
             
         })
            //quantity
            const spanQuantity = document.querySelector(".quantity");
-
+           
            buy.addEventListener("click", (e) => {
              counter++;
              spanQuantity.textContent = counter.toString();
-             spanQuantity.style.display="flex"
+             spanQuantity.style.display="flex";
+
+             //quantity-input
+            const quantityInput = document.querySelector(".quantity-counter")
+            quantityInput.style.display = "flex"
+            //quantity-input
+
+            
+
            });
           //quantity
+
+         
+
+  
 
     }
 
          });
 
+       
+         
+
 
          if(body.style.height < "1000px") {
             body.style.height = "1200px"
          }
-
+         
     } catch(err) {
         console.log(err)
     }
@@ -239,16 +287,8 @@ const fetchProducts = async () => {
 
 fetchProducts();
 
-const fetchUsers = async () => {
-    try {
-        const res = await fetch(usersAPI)
-        const data = await res.json()
 
-        console.log(data)
-    }  catch(err) {
-        console.log(err)
-    }
-}
+
 
 
 
