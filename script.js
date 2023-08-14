@@ -17,20 +17,117 @@ const img = document.querySelector(".main-pic")
 const bigButton = document.querySelector(".bigbutton")
 const midBtn = document.querySelector(".mid-btn")
 const itemsView = document.querySelector(".items-view")
+const quantity = document.querySelector(".quantity")
+
 //DOC
 
-
+ 
 
 const fetchProducts = async () => {
     try {
         const res = await fetch(productsAPI)
         const data = await res.json()
 
-        /* quantity counter */ let counter = 0;
+    
+            let cartItemCount = 0;
+            // let buyButtons = [];
         
 
           data.forEach((product) => {
             if(product.category !== "electronics") {
+
+
+                
+                //aside cart
+                function createCartItemElement (product)  {
+
+                    const cartItem = document.createElement("div");
+                    cartItem.classList.add("cart-item");
+                
+                    //img
+                    const itemsImg = document.createElement("div");
+                    itemsImg.classList.add("items-img");
+                    const cartItemImage = document.createElement("img");
+                    cartItemImage.src = product.image;
+                    cartItemImage.alt = product.title;
+                    itemsImg.appendChild(cartItemImage);
+                    cartItem.appendChild(itemsImg);
+                    //img
+                
+                    //title
+                    const itemsTitle = document.createElement("div");
+                    itemsTitle.classList.add("items-title");
+                    const cartItemTitle = document.createElement("p");
+                    cartItemTitle.textContent = product.title;
+                    itemsTitle.appendChild(cartItemTitle);
+                    cartItem.appendChild(itemsTitle);
+                    //title
+                
+                    //price
+                    const itemsPrice = document.createElement("div");
+                    itemsPrice.classList.add("items-price");
+                    const cartItemPrice = document.createElement("p");
+                    cartItemPrice.innerHTML = `<span class="product-price">${product.price}$</span>`
+                    itemsPrice.appendChild(cartItemPrice);
+                    cartItem.appendChild(itemsPrice);
+                    //price
+
+                    //quantity
+                    const itemsQuantity = document.createElement("span")
+                    itemsQuantity.classList.add("items-quantity")
+                    itemsQuantity.innerHTML = `<button class="decrease">-</button><input type="number" value="1" min="0" class="quantity-input"></input><button class="increase">+</button>`
+                    cartItem.appendChild(itemsQuantity)
+                    //quantity
+
+                    //shortening
+                    const inputString = cartItemTitle.innerHTML;
+                    const wordsArray = inputString.split(" ")
+                    const firstThree = wordsArray.slice(0, 2)
+                    const withoutComma  = firstThree.join(" ")
+                    if(wordsArray.length > 3) {
+                        cartItemTitle.innerHTML = withoutComma + "..."
+                    } else {
+                        cartItemTitle.innerHTML = inputString
+                    }
+                    //shortening
+                   
+                    //increase-decrease quantity
+                    const quantityInput = itemsQuantity.querySelector(".quantity-input")
+                    const decrease = itemsQuantity.querySelector(".decrease")
+                    decrease.addEventListener("click", e => {
+                        quantityInput.value--   
+
+                       if(quantityInput.value <= 0)  {
+                        asideDiv.removeChild(cartItem);
+                        --cartItemCount;   
+                    }
+                    // quantity.innerHTML = cartItemCount
+                    if(cartItemCount <= 0) {
+                        quantity.style.display = "none"
+                    } else{
+                        quantity.style.display = "flex"
+                        quantity.innerHTML = cartItemCount;
+                    }
+                })
+               
+
+                    const increase = itemsQuantity.querySelector(".increase")
+                    increase.addEventListener("click", e => {
+                        quantityInput.value++
+                        
+                    })
+
+                    
+                    //increase-decrease quantity
+
+             
+
+                    items.appendChild(cartItem);
+
+
+                    return cartItem;
+                }
+                //aside cart
 
               
             //IMG
@@ -63,12 +160,10 @@ const fetchProducts = async () => {
             price.classList.add("price")
             price.innerHTML = product.price + ` $`
             divElement.appendChild(price)
-            //PRICE
+            //PRICE 
 
             // BUY BUTTON
-             const buy = document.createElement("button")
-            
-            
+            const buy = document.createElement("button")
             buy.classList.add("add-cart")
             buy.innerHTML = "Add To Cart"
             buy.setAttribute("style", "cursor:pointer")
@@ -81,7 +176,7 @@ const fetchProducts = async () => {
             buy.appendChild(buyImg);
             // BUY BUTTON
 
-            //FILTERING(men)
+             //FILTERING(men)
             menBtn.addEventListener("click", e => {
                 if(product.category !== "men's clothing" ) {
                     divElement.style.display = "none"
@@ -142,8 +237,13 @@ const fetchProducts = async () => {
               midBtn.style.marginLeft = "380px"
               totalCartBtn.style.display ="flex"
             });
+
+            
             
             closeCartButton.addEventListener("click", () => {
+                asideDiv.classList.remove("open")
+                document.body.style.overflow ="auto"
+
               asideDiv.classList.remove("open");
               document.body.style.overflow = "auto";
               body.style.width = "99%"
@@ -153,129 +253,65 @@ const fetchProducts = async () => {
               header.removeAttribute("style", "width")
               ourProducts.removeAttribute("style","margin-left")
               bigButton.removeAttribute("style", "margin-left")
-              midBtn.removeAttribute("style", "margin-left")              
+              midBtn.removeAttribute("style", "margin-left")  
+              
+              const buyButtons = document.querySelectorAll(".add-cart")
+              buyButtons.forEach((buyButton) => {
+                buyButton.disabled = false;
+
+                buyButton.removeEventListener("click", buyClickHandler);
+
+                buyButton.addEventListener("click", buyClickHandler)
+              })
             }); 
 
             //CART BUTTON
         
-            //CART-DETAILS
 
-            //doc
-            const itemsTitle = document.querySelector(".items-title")
-            const itemsImg = document.querySelector(".items-img")
-            const itemsPrice = document.querySelector(".items-price")
-            //doc
+            //navbar-quantity - cart-items
 
               buy.addEventListener("click", () => {
+
+                  const cartItems = createCartItemElement(product);
+                asideDiv.appendChild(cartItems);
+
+                quantity.style.display = "flex"
+                quantity.innerHTML = ++cartItemCount;
                 
-                const cartItemImage = document.createElement("img");
-                cartItemImage.src = product.image;
-                cartItemImage.alt = product.title;
-                cartItemImage.classList.add("cart-item-image");
-                itemsImg.appendChild(cartItemImage);
+                buy.disabled = true;
+                buyButtons.forEach(button => {
+                    if(button ===buy) {
+                        button.removeEventListener("click", buyClickHandler);
+                    } else {
+                        button.disabled = false;
+                        button.addEventListener("click", buyClickHandler);
+                    }
+                });
                 
-                
-                const cartItemTitle = document.createElement("p");
-                cartItemTitle.textContent = product.title;
-                 itemsTitle.appendChild(cartItemTitle);
-                
+            });
+
             
-                const cartItemPrice = document.createElement("p");
-                // number-counter
-                cartItemPrice.innerHTML = `<span class="product-price">${product.price}$</span>`  +
-                 `<span class="quantity-span"> <button class="decrease">-</button> <input type="number" class="quantity-counter" value="1" min="0" max="10"> <button class="increase">+</button> </span>`
-                 itemsPrice.appendChild(cartItemPrice);
-                 //number-counter
-            
+
+            buy.addEventListener("click", () => {
+                buy.disabled = true;
+
+                buy.removeEventListener("click", buyClickHandler);
+            });
+
+            const buyClickHandler = () => {
                
-
-
-                //shortening              
-                const inputString = cartItemTitle.innerHTML;
-                const wordsArray  = inputString.split(" ")
-
-                const firstThreeWords = wordsArray.slice(0, 2)
-                const firstThree = firstThreeWords.join(" ");
-
-                if(wordsArray.length > 3) {
-                    cartItemTitle.innerHTML = firstThree + `...`
-                } else {
-                    cartItemTitle.innerHTML = inputString
-                }
-              //shortening
-             
-
-            //CART-DETAILS
-
-        //quantity-input-works
-        const increase = cartItemPrice.querySelector(".increase")
-        const decrease = cartItemPrice.querySelector(".decrease")
-        const input = cartItemPrice.querySelector(".quantity-counter")
-        const cartItem = document.querySelector(".cart-item")
-
-        const productPrice = document.querySelector(".product-price")
-
-
-        
-
-        increase.addEventListener("click", e => {
-           parseFloat(input.value++)
-        })
-
-       
-        
-         decrease.addEventListener("click", e => {
-            
-          parseFloat(input.value--);
-          if(product.price === parseFloat(productPrice.innerHTML) && input.value <= 0) {
-            cartItem.style.display = "none"
-
-            // console.log(cartItem)
-            // console.log(parseFloat(productPrice.innerHTML))
-            // console.log(product.price)
-          }
-          
-        }) 
-
-      
-   
-
-        
-
-       //quantity-input-works
-
-            
-        })
-           //quantity
-           const spanQuantity = document.querySelector(".quantity");
-           
-           buy.addEventListener("click", (e) => {
-             counter++;
-             spanQuantity.textContent = counter.toString();
-             spanQuantity.style.display="flex";
-
-             //quantity-input
-            const quantityInput = document.querySelector(".quantity-counter")
-            quantityInput.style.display = "flex"
-            //quantity-input
+            }; 
 
             
 
-           });
-          //quantity
+            buy.addEventListener("click", buyClickHandler);
 
-         
 
-  
-
+        
     }
-
          });
 
-       
          
-
-
          if(body.style.height < "1000px") {
             body.style.height = "1200px"
          }
