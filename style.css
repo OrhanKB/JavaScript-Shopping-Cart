@@ -269,7 +269,7 @@
 
     .div-element:hover .add-cart {
       transform: translateX(10px); 
-    }
+    } 
 
     .title {
       display: flex;
@@ -294,8 +294,14 @@
       transform: translateX(124px);
       transition: opacity 0.3s, transform 0.3s;
       height: 30px;
-
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
     }
+
+
+    .add-cart:active {
+      background-color: black;
+    } 
 
 
     .buy-img {
@@ -507,9 +513,12 @@
   .product-price {
     position: absolute;
     top: -65px;
-    /* right: 30px; */
     font-weight: 600;
   }
+
+
+
+
 
 
 
