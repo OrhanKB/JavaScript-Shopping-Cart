@@ -3,58 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JS shopping cart</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
-    <header class="header">
-        <a href=""><h1><b>Shopping</b>Cart</h1></a>
-         <div class="categories">
-            <button class="nav-btn" id="men" >Men's Clothing</button> <span class="vl"></span>
-            <button class="nav-btn" id="women" >Women's Clothing</button> <span class="vl"></span>
-            <button class="nav-btn" id="jewelery" >Jewellery</button> <span class="vl"></span>
-        </div>
-        <div class="last-two">
-        <button class="login-btn">Login</button>
-        <button href="script.js" class="cart-btn"><img src="img/shopping-cart.png" alt=""></button>
-        <span class="quantity"></span>
-      </div>
-    </header>
     
-    <main>
-      <section>
-      <div class="main-pic">
-        <img src="img/fotodesign.jpg" alt="">
-      </div>
-      
-      <div class="bigbutton">
-        <p>NEW COLLECTION</p>
-      </div>
-      <button class="mid-btn">SEE MORE</button>
-    </section>
+<header>
+   <a href="" ><h1><b>Shopping</b>Cart</h1></a>  
+    <div class="middle">
+    <button class="men">Men's Clothing</button>
+    <button class="women">Women's Clothing</button>
+    <button class="jewellery">Jewellery</button>
+</div>
+<div class="last">
+    <button>Login</button>
+    <button class="cart-btn"><img src="img/shopping-cart.png" alt=""></button>
+    <span class="cart-quantity"></span>
     
-    <div class="details">
-      <p class="our-products">OUR PRODUCTS</p>
-      <div class="items">
-        
-      </div>
+</div>
+</header>
+
+<div class="big-image">
+    <img class="bigg-img" src="img/fotodesign.jpg" alt="">
+    <div class="texts">
+        <h1 class="text">NEW COLLECTION</h1>
+        <button class="text see-more">SEE MORE</button>
     </div>
-
-    </main>
-
-
- <aside class="aside-cart">
-  <h2>Cart</h2>
-   
-  
-  <div class="bottom-btns">
-  <div class="total-price">0.00$</div>  
-  <button class="close-cart-btn">Close</button>
 </div>
 
-</aside> 
+<main>
+    <h2 class="our-products">OUR PRODUCTS</h2>
+    <div class="items">
+        
+    </div>
+</main>
+
+<aside class="aside-cart">
+    <div class="top">
+    <h2>Cart</h2>
+    <button class="delete"><img src="img/delete.png" alt=""></button>
+</div>
+
+    <div class="cart-items"></div>
+    <div class="bottom-btns">
+        <div class="total-price">0 $</div>
+        <button class="close-cart-btn">Close</button>
+    </div>
+</aside>
 
 
     <script src="script.js"></script>
