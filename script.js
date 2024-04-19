@@ -23,19 +23,29 @@ const totalPrice = document.querySelector(".total-price")
 //DOC
 
 
+//GET TOTAL QUANTITY
+function saveTotalQuantity(totalQ) {
+     localStorage.setItem("totalQuantity", JSON.stringify(totalQ));
+}
+
+async function getTotalQuantity() {
+    const parsed =  JSON.parse(localStorage.getItem("totalQuantity"));
+    return parsed
+}
+//GET TOTAL QUANTITY
+
+
 //LOCALSTOARGE
 function saveItemsLocalStorage(cartItemArray) {
     localStorage.setItem("cartItemArray",JSON.stringify(cartItemArray));
 }
 
-function getItemsFromLocalStorage() {
-    const storedItems = localStorage.getItem("cartItemArray");
+ function getItemsFromLocalStorage() {
+    const storedItems =  localStorage.getItem("cartItemArray");
     return storedItems ? JSON.parse(storedItems) : [];
 }
 
-
 //LOCALSTOARGE
-
 
 //SUMQUANTITY LOCALSTORAGE
 function saveQuantitySum(summ) {
@@ -63,8 +73,15 @@ const halan = getItems.forEach(item => {
     return zero += item.quantity
 }) 
 
- cartQuantity.innerHTML = zero 
-cartQuantity.innerHTML > 0 ? cartQuantity.style.display = "flex" : []; 
+ 
+ getTotalQuantity()
+ .then(quantity => {
+    cartQuantity.innerHTML = quantity
+    quantity ? cartQuantity.style.display = "flex" : [] ;
+ })
+ .catch("error");
+
+
 //cartQuantity 
 
 
@@ -89,16 +106,24 @@ function getDivSave() {
 
 // add event listeners out of the function
     let sayac = 0;
+    let totalQuantity
  itemsOfCartItems.forEach(item => {
     const additionButtons = item.lastChild.firstChild;
     const extractionButtons = item.lastChild.lastChild;
     const priceOfItems = parseFloat(item.childNodes[2].innerHTML);
    
-    additionButtons.addEventListener("click", e => {
-        const parsedStore = getItemsFromLocalStorage()
+    additionButtons.addEventListener("click", async e => {
+        cartItemArray = await getItemsFromLocalStorage()
+       
+
+        const existingProduct = cartItemArray.find(arrayItem => arrayItem.id === parseInt(item.id));
+        
+        
+
+        
         const quantityElement = item.lastChild.childNodes[1];
         quantityElement.innerHTML = parseInt(quantityElement.innerHTML) + 1;
-
+        ++existingProduct.quantity;
         //total price
         const totalSum = localStorage.getItem("totalSum");
         const parsedSum = JSON.parse(totalSum);
@@ -111,19 +136,27 @@ function getDivSave() {
         totalPrice.innerHTML = sumAll.toFixed(2) + "$"
         //total price
             ++cartQuantity.innerHTML 
-        
-        
-        saveItemsLocalStorage(parsedStore);
+            totalQuantity = cartItemArray.reduce((acc, item) => acc + item.quantity, 0);
+
+       
+        saveItemsLocalStorage(cartItemArray);
          saveQuantitySum(parsedSum);
         divSave(cartItems);
+        saveTotalQuantity(totalQuantity);
     });
 
-    extractionButtons.addEventListener("click", e => {
-        const parsedStore = getItemsFromLocalStorage()
-        console.log("parsedstore:", parsedStore)
-        const quantityElement = item.lastChild.childNodes[1];
-        quantityElement.innerHTML = parseInt(quantityElement.innerHTML) - 1
+    extractionButtons.addEventListener("click", async e => {
+        cartItemArray = await getItemsFromLocalStorage()
+        const existingProduct = cartItemArray.find(arrayItem => arrayItem.id === parseInt(item.id)); 
+        const indexToRemove = cartItemArray.indexOf(existingProduct);
         
+
+        const quantityElement = item.lastChild.childNodes[1];
+        quantityElement.innerHTML = --existingProduct.quantity; 
+        
+        --cartQuantity.innerHTML
+        cartQuantity.innerHTML < 1 ? cartQuantity.style.display = "none" : [] ;
+        totalQuantity = cartItemArray.reduce((acc, item) => acc + item.quantity, 0);
 
         
         //total price
@@ -140,15 +173,27 @@ function getDivSave() {
             }, 0);
 
             totalPrice.innerHTML = afterRemove.toFixed(2) + "$"
-        }
+        } 
 
-        
-        
+        parsedSum.splice(indexOfPriceToRemove, 1);
+
+        const afterRemove = parsedSum.reduce((acc, num) => {
+            return acc+=num
+        }, 0);
+
+        totalPrice.innerHTML = afterRemove.toFixed(2) + "$"
 
             
-        saveItemsLocalStorage(parsedStore)
+        if(parseInt(quantityElement.innerHTML) < 1) {
+            cartItems.removeChild(item);
+           cartItemArray.splice(indexToRemove, 1);
+        }     
+
+           console.log("parsedsum:", parsedSum); 
+        saveItemsLocalStorage(cartItemArray);
         saveQuantitySum(parsedSum);
         divSave(cartItems)
+        saveTotalQuantity(totalQuantity);
         //total price
     });
 
@@ -164,8 +209,7 @@ const fetchProducts = async () => {
 
      
        let summ = getQuantitySum();   
-        // let cartItemArray = [];
-
+        
         data.map(product => {
             if(product.category !== "electronics") {
 
@@ -213,21 +257,9 @@ const fetchProducts = async () => {
                 buy.appendChild(buyImg)
                 //BUY BUTTON
 
-                //DELETE BTN
-                deleteBtn.addEventListener("click", e => {
-                    cartItemArray.splice(0, cartItemArray.length);
-                    cartItems.removeChild(asideItem)
-                    saveItemsLocalStorage()
-                    cartQuantity.innerHTML = 0
-                    cartQuantity.style.display = "none"
-                    totalPrice.innerHTML = 0 + "$"
-                    summ.splice(0, summ.length)
-                })
-                //DELETE BTN
-
                 //SEE MORE BTN SCROLL
                 seeMoreBtn.addEventListener("click", e => {
-                    scrollBy(0, 560)
+                    scrollTo(0, 540)
                 })
                 //SEE MORE BTN SCROLL
                 
@@ -236,7 +268,7 @@ const fetchProducts = async () => {
                     if(product.category === "men's clothing") {
                         divElement.style.display = "flex"
                         ourProducts.innerHTML = "MEN'S CLOTHING"
-                        scrollBy(0, 600)
+                        scrollTo(0, 550)
                         } else {    
                             divElement.style.display = "none"   
                     } 
@@ -248,7 +280,7 @@ const fetchProducts = async () => {
                     if(product.category === "women's clothing") {
                         divElement.style.display ="flex"
                         ourProducts.innerHTML = "WOMEN'S CLOTHING"
-                        scrollBy(0, 600)
+                        scrollTo(0, 550)
                     } else {
                         divElement.style.display = "none"
                     }
@@ -261,7 +293,7 @@ const fetchProducts = async () => {
                     if(product.category === "jewelery") {
                         divElement.style.display = "flex"
                         ourProducts.innerHTML = "JEWELERY"
-                        scrollBy(0, 600)
+                        scrollTo(0, 550)
                     } else {
                         divElement.style.display = "none"
                     }
@@ -297,6 +329,19 @@ const fetchProducts = async () => {
             const asideItem = document.createElement("div");   
             asideItem.classList.add("aside-item");
             //ASIDE ITEM
+
+            
+                //DELETE BTN
+                deleteBtn.addEventListener("click", e => {
+                   localStorage.removeItem("cartItemArray")
+                   cartItems.innerHTML = "";
+                    cartQuantity.innerHTML = 0
+                    cartQuantity.style.display = "none"
+                    totalPrice.innerHTML = 0 + "$"
+                    summ.splice(0, summ.length)
+                })
+                //DELETE BTN
+                
 
          product.quantity = 1   
          //IMG 
@@ -378,7 +423,7 @@ const fetchProducts = async () => {
                             if(parseInt(div.id) === parseInt(asideItem.id)) {
                                 let midchild = div.lastChild.childNodes[1];
                                 
-                                cartQuantity
+                                
                                 midchild.innerHTML = ++existingProduct.quantity; 
                                 itemExists = true;
                                 
@@ -394,27 +439,29 @@ const fetchProducts = async () => {
 
                     let totalQuantity = cartItemArray.reduce((acc, item) => acc + item.quantity, 0);
                     cartQuantity.innerHTML = totalQuantity;
-
-                    saveItemsLocalStorage(cartItemArray);
-                    
-                    
+                    saveTotalQuantity(totalQuantity);
+                    saveItemsLocalStorage(cartItemArray);                    
                     
 
                     //total price
+                    
                     summ.push(product.price);
+                    
                     let sumAll = summ.reduce((acc, nums) => {
                         return acc += nums
                     }, 0)
                     totalPrice.innerHTML = sumAll.toFixed(2) + "$"
                     //total price
+                    
 
                     saveQuantitySum(summ);
                     divSave(cartItems); 
                     
-                    
                 }   
                     );
-                    
+
+
+                    let totalQuantity
                    addition.addEventListener("click", async  (e) => {
                        
                         cartItemArray = await getItemsFromLocalStorage()
@@ -433,13 +480,13 @@ const fetchProducts = async () => {
                                
                            }
                            
-                    let totalQuantity = cartItemArray.reduce((acc, item) => acc + item.quantity, 0);
+                     totalQuantity = cartItemArray.reduce((acc, item) => acc + item.quantity, 0);
                      cartQuantity.innerHTML = totalQuantity;
-                   
-
+                     
+                        
                        });
                  
-
+                       
                        saveItemsLocalStorage(cartItemArray)
                       
 
@@ -454,20 +501,23 @@ const fetchProducts = async () => {
 
                    saveQuantitySum(summ);
                    divSave(cartItems);
+                   saveTotalQuantity(totalQuantity);
+                      
                    });
                 
 
                    extraction.addEventListener("click", async (e) => {
                         cartItemArray = await getItemsFromLocalStorage()
+
                    const existingProduct = cartItemArray.find(item => item.id === product.id);
                    const indexToRemove = cartItemArray.indexOf(existingProduct);
                    let itemExists = false;   
                      
-
+                    //div to remove
                        cartItems.childNodes.forEach((div) => {
                            if(parseInt(div.id) === parseInt(asideItem.id)) {
                                let midchild = div.lastChild.childNodes[1];
-                               //buradan bak
+                               
                    
                                midchild.innerHTML = --existingProduct.quantity; 
                                itemExists = true;
@@ -481,9 +531,9 @@ const fetchProducts = async () => {
                            }   
                            
                        }); 
+                    //div to remove
                        
-                       
-                  //total price
+                  //price to remove
                        let priceToRemove = product.price
                        let priceToRemoveIndex = summ.indexOf(priceToRemove)
                        summ.splice(priceToRemoveIndex, 1)
@@ -493,27 +543,25 @@ const fetchProducts = async () => {
 
                        totalPrice.innerHTML = afterRemove.toFixed(2) + " $"
 
+                    //price to remove
 
-                       // totalPrice.innerHTML = afterRemove
-                      
-                 // let sumAll = summ.forEach(num => console.log("num:",num))
-                   
-                 /*  let sumAll = summ.reduce((acc, nums) => {
-                       return acc += nums
-                   }, 0)
-                   totalPrice.innerHTML = sumAll.toFixed(2) + "$" */
-                   //total price
-                  
-
-                   
+                    //quantity to remove 
+                       const getQuantity = getTotalQuantity();
+                        getQuantity
+                       .then(quantity => {
+                        --quantity
+                        saveTotalQuantity(quantity);
+                        console.log("quantity:", quantity);
+                       })
+                       .catch("error");
                        
-                       saveItemsLocalStorage(cartItemArray)
+                    //quantity to remove
+
+
+                       saveItemsLocalStorage(cartItemArray);
                        divSave(cartItems);
-                       saveQuantitySum(summ)
-
-                       
-                       
-                   }) 
+                       saveQuantitySum(summ);
+                   }) ;
                 
                 
                     
@@ -531,12 +579,3 @@ const fetchProducts = async () => {
 }
 
 fetchProducts();
-
-
-
-
-
-
-    
-
-

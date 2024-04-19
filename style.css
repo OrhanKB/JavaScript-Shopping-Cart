@@ -105,7 +105,6 @@ header > a >h1 > b {
 .cart-quantity {
     position: relative;
     padding-top: 1px;
-    display: flex;
     justify-content: center;
     align-items: center;
     background-color: gray;
@@ -185,9 +184,7 @@ header > a >h1 > b {
 /****************  BIG IMAGE  ****************/
 
 /******************** ITEMS *********************/
-.our-products{
-   /* margin-right: 355px; */
-}
+
 
 main{
     display: flex;
@@ -327,7 +324,13 @@ main{
     border-radius: 50%;
     cursor: pointer;
     padding: 10px;
+    transition: 250ms ease;
 }
+
+.delete:hover{
+    background-color: #764925 ;
+}
+
 .delete img {
     width: 23px;
     height: 23px;
@@ -388,6 +391,10 @@ main{
     justify-content: center;
     padding-top: 2px;
     cursor: pointer;
+    transition: 250ms ease
+}
+.addition:hover {
+    background-color: gray;
 }
 
 .extraction{
@@ -401,6 +408,10 @@ main{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: 250ms ease;
+}
+.extraction:hover {
+    background-color: gray;
 }
 
 
